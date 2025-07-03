@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -16,7 +18,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.diceroller.ui.theme.DiceRollerTheme
 
 
@@ -45,13 +49,29 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     var randomInt by remember { mutableStateOf(1) }
 
     Column {
-        Text(text = randomInt.toString())
+        Image(
+            painter = painterResource(id = diceImage(randomInt)),
+            contentDescription = "Dice rolled: $randomInt",
+            modifier = Modifier.size(100.dp)
+        )
 
         Button(onClick = {
             randomInt = (1..6).random()
         }) {
             Text("Roll dice")
         }
+    }
+}
+
+@Composable
+fun diceImage(diceNumber: Int): Int{
+    return when (diceNumber) {
+        1 -> R.drawable.dice_1
+        2 -> R.drawable.dice_2
+        3 -> R.drawable.dice_3
+        4 -> R.drawable.dice_4
+        5 -> R.drawable.dice_5
+        else -> R.drawable.dice_6
     }
 }
 
