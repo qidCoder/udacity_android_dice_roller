@@ -1,7 +1,6 @@
 package com.example.diceroller
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,12 +11,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.diceroller.ui.theme.DiceRollerTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,22 +39,19 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Column() {
-        Text(
-            text = "1",
-            modifier = modifier.align(alignment = Alignment.CenterHorizontally)
-        )
-        rollButton()
-    }
-}
+    // need to manage state to ensure the UI updates when the underlying data changes
+    // remember and mutableStateOf creates a state variable that holds the rancom number
+    // when you update this state variable Compose automatically recomposes the UI to reflect the new value
+    var randomInt by remember { mutableStateOf(1) }
 
-@Composable
-fun rollButton() {
-    val context = LocalContext.current
-    Button(onClick = {
-        Toast.makeText(context, "Dice rolled!", Toast.LENGTH_SHORT).show()
-    }) {
-        Text(stringResource(R.string.button_name))
+    Column {
+        Text(text = randomInt.toString())
+
+        Button(onClick = {
+            randomInt = (1..6).random()
+        }) {
+            Text("Roll dice")
+        }
     }
 }
 
