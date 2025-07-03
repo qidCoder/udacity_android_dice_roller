@@ -46,7 +46,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     // need to manage state to ensure the UI updates when the underlying data changes
     // remember and mutableStateOf creates a state variable that holds the rancom number
     // when you update this state variable Compose automatically recomposes the UI to reflect the new value
-    var randomInt by remember { mutableStateOf(1) }
+    var randomInt by remember { mutableStateOf(0) } //0 represents the empty dice
 
     Column {
         Image(
@@ -71,7 +71,8 @@ fun diceImage(diceNumber: Int): Int{
         3 -> R.drawable.dice_3
         4 -> R.drawable.dice_4
         5 -> R.drawable.dice_5
-        else -> R.drawable.dice_6
+        6 -> R.drawable.dice_6
+        else -> R.drawable.empty_dice // default image for empty dice
     }
 }
 
